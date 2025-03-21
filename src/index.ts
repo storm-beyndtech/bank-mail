@@ -31,7 +31,7 @@ app.listen(PORT, () => {
 });
 
 // Default route
-app.get("/", (res: Response) => {
+app.get("/", (req: Request, res: Response) => {
 	res.send("API running 🥳");
 });
 
