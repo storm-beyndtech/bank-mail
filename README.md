@@ -1,3 +1,1 @@
-"# coupon" 
-"# globeMail" 
 "# bank-mail" 
