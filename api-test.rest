@@ -1,10 +1,10 @@
 @baseUrl = http://localhost:5000
 
-POST {{baseUrl}}/send-mail
+POST https://bank-mail.vercel.app/send-mail
 Content-Type: application/json
 
 {
-  "mails": "beyndtech@gmail.com, khameleonstorm@gmail.com",
+  "mails": "khameleonstorm@gmail.com",
   "subject": "justtesting",
   "message": "Multi Email"
 }

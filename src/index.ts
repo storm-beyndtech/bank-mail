@@ -40,9 +40,11 @@ app.post("/send-mail", async (req: Request, res: Response) => {
 	const { mails, subject, message } = req.body;
 	try {
 		// Add your email sending logic here
-		const mailRes = await bulkMail(mails, subject, message);
-		console.log(mailRes);
-		res.status(200).json({ mailRes });
+    const mailRes:any = await bulkMail(mails, subject, message);
+    if (mailRes.error) {
+      throw new Error(mailRes.error);
+    }
+		res.status(200).json({ message: "Mail Sent Successfully..." });
 	} catch (error) {
 		console.error("Error sending email:", error);
 		res.status(500).json({ error: "Failed to send email" });

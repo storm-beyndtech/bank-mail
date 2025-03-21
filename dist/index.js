@@ -46,8 +46,10 @@ app.post("/send-mail", (req, res) => __awaiter(void 0, void 0, void 0, function*
     try {
         // Add your email sending logic here
         const mailRes = yield (0, emailService_1.bulkMail)(mails, subject, message);
-        console.log(mailRes);
-        res.status(200).json({ mailRes });
+        if (mailRes.error) {
+            throw new Error(mailRes.error);
+        }
+        res.status(200).json({ message: "Mail Sent Successfully..." });
     }
     catch (error) {
         console.error("Error sending email:", error);
