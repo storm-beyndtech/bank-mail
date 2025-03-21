@@ -31,8 +31,8 @@ const sendMailWithRetry = async (mailData: any, retries = 3) => {
 export async function bulkMail(mails: string, subject: string, message:string) {
 	try {
 		let bodyContent = `
-      <td style="padding: 20px; line-height: 1.5;">
-        <h2 style="font-size: 24px;">Dear Valued Customer,</h2>
+      <td style="padding: 20px; line-height: 1.8;">
+        <h2 style="font-size: 20px;">Dear Valued Customer,</h2>
         <p>${message}</p>
         <p>Best regards,</p>
         <p>The Instantsglobal Team</p>

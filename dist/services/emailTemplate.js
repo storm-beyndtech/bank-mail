@@ -26,6 +26,8 @@ function emailTemplate(title, bodyContent) {
 
         .head{
           background: #13160F;
+          display: flex;
+          justify-content: center;
         }
 
         .footer {
@@ -33,6 +35,7 @@ function emailTemplate(title, bodyContent) {
           color: #fafafa;
           background: #13160F;
           padding: 20px;
+          text-align: center;
         }
       </style>
     </head>
@@ -44,7 +47,7 @@ function emailTemplate(title, bodyContent) {
               <!-- Header Section with Logo -->
               <tr>
                 <td class="head" style="padding: 20px;">
-                  <img src="https://instantsglobal-p.com/logo.png" alt="Logo" style="max-width: 120px; margin: 0 auto;">
+                  <img src="https://instantsglobal-p.com/logo.png" alt="Logo" style="max-width: 120px;">
                 </td>
               </tr>
               <!-- Body Content Section -->
