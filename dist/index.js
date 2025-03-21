@@ -21,12 +21,12 @@ const emailService_1 = require("./services/emailService");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const PORT = process.env.PORT || 5000;
-// CORS middleware
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    next();
-});
-app.use((0, cors_1.default)());
+// Enable CORS for all routes
+app.use((0, cors_1.default)({
+    origin: "*", // Allow all origins (or specify your frontend URL, e.g., "http://localhost:3000")
+    methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
+    allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
+}));
 app.use(express_1.default.json());
 // Verify Email Transporter
 (() => __awaiter(void 0, void 0, void 0, function* () {

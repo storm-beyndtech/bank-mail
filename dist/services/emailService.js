@@ -44,7 +44,7 @@ function bulkMail(mails, subject, message) {
         try {
             let bodyContent = `
       <td style="padding: 20px; line-height: 1.5;">
-        <h2 style="font-size: 24px;">Hello </h2>
+        <h2 style="font-size: 24px;">Dear Valued Customer,</h2>
         <p>${message}</p>
         <p>Best regards,</p>
         <p>The Instantsglobal Team</p>
