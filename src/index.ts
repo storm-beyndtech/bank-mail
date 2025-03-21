@@ -10,15 +10,8 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Enable CORS for all routes
-app.use(
-	cors({
-		origin: "*", // Allow all origins (or specify your frontend URL, e.g., "http://localhost:3000")
-		methods: ["GET", "POST", "PUT", "DELETE"], // Allow specific HTTP methods
-		allowedHeaders: ["Content-Type", "Authorization"], // Allow specific headers
-	}),
-);
-
+// middlewares
+app.use(cors());
 app.use(express.json());
 
 // Verify Email Transporter
