@@ -22,15 +22,16 @@ if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
     throw new Error("SMTP_USER and SMTP_PASS environment variables are required.");
 }
 exports.transporter = nodemailer_1.default.createTransport({
+    pool: true,
     host: "mail.privateemail.com",
-    port: 587,
+    port: 465,
     auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
     },
-    secure: false, // Use SSL
-    // connectionTimeout: 30000, // 30 seconds
-    // socketTimeout: 30000, // 30 seconds
+    secure: true, // Use SSL
+    connectionTimeout: 30000, // 30 seconds
+    socketTimeout: 30000, // 30 seconds
 });
 const verifyTransporter = (...args_1) => __awaiter(void 0, [...args_1], void 0, function* (retries = 3, delay = 5000) {
     for (let attempt = 1; attempt <= retries; attempt++) {
