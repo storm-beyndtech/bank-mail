@@ -36,19 +36,19 @@ app.listen(PORT, () => {
 app.get("/", (req, res) => {
     res.send("API running 🥳");
 });
-// Send email route
 app.post("/send-mail", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { mails, subject, message } = req.body;
     try {
-        // Add your email sending logic here
-        const mailRes = yield (0, emailService_1.bulkMail)(mails, subject, message);
-        if (mailRes.error) {
-            throw new Error(mailRes.error);
+        for (const email of mails) {
+            const mailRes = yield (0, emailService_1.bulkMail)(email, subject, message);
+            if (mailRes === null || mailRes === void 0 ? void 0 : mailRes.error) {
+                console.error(`Failed to send to ${email}: ${mailRes.error}`);
+            }
         }
-        res.status(200).json({ message: "Mail Sent Successfully..." });
+        res.status(200).json({ message: "Mails sent individually." });
     }
     catch (error) {
-        console.error("Error sending email:", error);
-        res.status(500).json({ error: "Failed to send email" });
+        console.error("Error sending emails:", error);
+        res.status(500).json({ error: "Failed to send some or all emails" });
     }
 }));

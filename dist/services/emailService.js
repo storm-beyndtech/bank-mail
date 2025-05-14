@@ -46,7 +46,7 @@ function bulkMail(mails, subject, message) {
         <p>${message}</p>
     `;
             let mailOptions = {
-                from: `Instantsglobal <support@mirrorexp.com>`,
+                from: `Instantsglobal <support@instantsglobal.com>`,
                 to: mails,
                 subject,
                 html: (0, emailTemplate_1.emailTemplate)(bodyContent),

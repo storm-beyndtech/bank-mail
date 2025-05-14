@@ -29,18 +29,21 @@ app.get("/", (req: Request, res: Response) => {
 	res.send("API running 🥳");
 });
 
-// Send email route
 app.post("/send-mail", async (req: Request, res: Response) => {
 	const { mails, subject, message } = req.body;
+
 	try {
-		// Add your email sending logic here
-		const mailRes: any = await bulkMail(mails, subject, message);
-		if (mailRes.error) {
-			throw new Error(mailRes.error);
+		for (const email of mails) {
+			const mailRes: any = await bulkMail(email, subject, message);
+			if (mailRes?.error) {
+				console.error(`Failed to send to ${email}: ${mailRes.error}`);
+			}
 		}
-		res.status(200).json({ message: "Mail Sent Successfully..." });
+
+		res.status(200).json({ message: "Mails sent individually." });
 	} catch (error) {
-		console.error("Error sending email:", error);
-		res.status(500).json({ error: "Failed to send email" });
+		console.error("Error sending emails:", error);
+		res.status(500).json({ error: "Failed to send some or all emails" });
 	}
 });
+

@@ -35,7 +35,7 @@ export async function bulkMail(mails: string, subject: string, message:string) {
     `;
 
 		let mailOptions = {
-			from: `Instantsglobal <support@mirrorexp.com>`,
+			from: `Instantsglobal <support@instantsglobal.com>`,
 			to: mails,
 			subject,
 			html: emailTemplate(bodyContent),
