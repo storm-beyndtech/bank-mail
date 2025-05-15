@@ -39,12 +39,20 @@ app.get("/", (req, res) => {
 app.post("/send-mail", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { mails, subject, message } = req.body;
     try {
+        const results = [];
         for (const email of mails) {
-            const mailRes = yield (0, emailService_1.bulkMail)(email, subject, message);
-            if (mailRes === null || mailRes === void 0 ? void 0 : mailRes.error) {
-                console.error(`Failed to send to ${email}: ${mailRes.error}`);
+            try {
+                yield (0, emailService_1.bulkMail)(email, subject, message);
+                console.log(`✅ Sent to: ${email}`);
+                results.push({ email, status: "sent" });
+                yield delay(300);
+            }
+            catch (err) {
+                console.error(`❌ Error sending to ${email}:`, err.message);
+                results.push({ email, status: "failed", error: err.message });
             }
         }
+        console.table(results);
         res.status(200).json({ message: "Mails sent individually." });
     }
     catch (error) {
@@ -52,3 +60,4 @@ app.post("/send-mail", (req, res) => __awaiter(void 0, void 0, void 0, function*
         res.status(500).json({ error: "Failed to send some or all emails" });
     }
 }));
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

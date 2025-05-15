@@ -9,16 +9,16 @@ if (!process.env.SMTP_USER || !process.env.SMTP_PASS) {
 }
 
 export const transporter = nodemailer.createTransport({
-	pool: true,
 	host: "mail.privateemail.com",
 	port: 465,
 	auth: {
 		user: process.env.SMTP_USER,
 		pass: process.env.SMTP_PASS,
 	},
-	secure: true, // Use SSL
-	connectionTimeout: 30000, // 30 seconds
-	socketTimeout: 30000, // 30 seconds
+  pool: true,
+  maxConnections: 5,
+  maxMessages: 100,
+  rateLimit: 10,
 });
 
 export const verifyTransporter = async (retries = 3, delay = 5000) => {

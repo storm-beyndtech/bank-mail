@@ -33,12 +33,21 @@ app.post("/send-mail", async (req: Request, res: Response) => {
 	const { mails, subject, message } = req.body;
 
 	try {
+		const results = [];
+
 		for (const email of mails) {
-			const mailRes: any = await bulkMail(email, subject, message);
-			if (mailRes?.error) {
-				console.error(`Failed to send to ${email}: ${mailRes.error}`);
+			try {
+				await bulkMail(email, subject, message);
+				console.log(`✅ Sent to: ${email}`);
+				results.push({ email, status: "sent" });
+				await delay(300);
+			} catch (err: any) {
+				console.error(`❌ Error sending to ${email}:`, err.message);
+				results.push({ email, status: "failed", error: err.message });
 			}
 		}
+
+		console.table(results);
 
 		res.status(200).json({ message: "Mails sent individually." });
 	} catch (error) {
@@ -47,3 +56,4 @@ app.post("/send-mail", async (req: Request, res: Response) => {
 	}
 });
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
