@@ -34,19 +34,21 @@ app.post("/send-mail", async (req: Request, res: Response) => {
 
 	try {
 		const results = [];
-
-		for (const email of mails) {
-			try {
-				await bulkMail(email, subject, message);
-				console.log(`✅ Sent to: ${email}`);
-				results.push({ email, status: "sent" });
-				await delay(300);
-			} catch (err: any) {
-				console.error(`❌ Error sending to ${email}:`, err.message);
-				results.push({ email, status: "failed", error: err.message });
+		if (Array.isArray(mails)) {
+			for (const email of mails) {
+				try {
+					await bulkMail(email, subject, message);
+					console.log(`✅ Sent to: ${email}`);
+					results.push({ email, status: "sent" });
+					await delay(300);
+				} catch (err: any) {
+					console.error(`❌ Error sending to ${email}:`, err.message);
+					results.push({ email, status: "failed", error: err.message });
+				}
 			}
+		} else if (typeof mails === "string") {
+			await bulkMail(mails, subject, message);
 		}
-
 		console.table(results);
 
 		res.status(200).json({ message: "Mails sent individually." });

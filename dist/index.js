@@ -40,17 +40,22 @@ app.post("/send-mail", (req, res) => __awaiter(void 0, void 0, void 0, function*
     const { mails, subject, message } = req.body;
     try {
         const results = [];
-        for (const email of mails) {
-            try {
-                yield (0, emailService_1.bulkMail)(email, subject, message);
-                console.log(`✅ Sent to: ${email}`);
-                results.push({ email, status: "sent" });
-                yield delay(300);
+        if (Array.isArray(mails)) {
+            for (const email of mails) {
+                try {
+                    yield (0, emailService_1.bulkMail)(email, subject, message);
+                    console.log(`✅ Sent to: ${email}`);
+                    results.push({ email, status: "sent" });
+                    yield delay(300);
+                }
+                catch (err) {
+                    console.error(`❌ Error sending to ${email}:`, err.message);
+                    results.push({ email, status: "failed", error: err.message });
+                }
             }
-            catch (err) {
-                console.error(`❌ Error sending to ${email}:`, err.message);
-                results.push({ email, status: "failed", error: err.message });
-            }
+        }
+        else if (typeof mails === "string") {
+            yield (0, emailService_1.bulkMail)(mails, subject, message);
         }
         console.table(results);
         res.status(200).json({ message: "Mails sent individually." });
